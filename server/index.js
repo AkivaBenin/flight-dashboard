@@ -44,6 +44,18 @@ app.post('/api/telemetry', async (req, res) => {
     try {
         const { altitude, his, adi } = req.body;
 
+        if (altitude < 0 || altitude > 3000) {
+            return res.status(400).json({ error: "Altitude must be between 0 and 3000" });
+        }
+
+        if (his < 0 || his > 360) {
+            return res.status(400).json({ error: "HIS must be between 0 and 360" });
+        }
+
+        if (adi < 0 || adi > 100) {
+            return res.status(400).json({ error: "ADI must be between 0 and 100" });
+        }
+
         const newData = new Telemetry({
             altitude: Number(altitude),
             his: Number(his),
